@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>选课详情</title>
+  <title>Basic Information</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -110,18 +110,26 @@
 <body>
 
   <div class="container">
-    <h2>选课详情</h2>
+    <h2>基本情報/Basic Information</h2>
 
     <div class="details">
-      <p><strong>时间段：</strong><span id="time-slot"></span></p>
-      <p><strong>日期：</strong><span id="date"></span></p>
-      <p><strong>姓名：</strong><input type="text" id="name" placeholder="请输入姓名" required></p>
-      <p><strong>假名：</strong><input type="text" id="kana" placeholder="请输入假名" required></p>
-      <p><strong>邮箱：</strong><input type="email" id="email" placeholder="请输入邮箱" required></p>
+      <p><strong>時間：</strong><span id="time-slot"></span></p>
+      <p><strong>日程：</strong><span id="date"></span></p>
+      <p><strong>名前/Name(alphapet)：</strong><input type="text" id="name" placeholder="Name(alphapet)" required></p>
+      <p><strong>名前/Name(katakana)：</strong><input type="text" id="kana" placeholder="Name(katakana)" required></p>
+      <p><strong>国籍・地域/Nationality・Region：</strong><input type="text" id="kana" placeholder="Nationality・Region" required></p>
+      <p><strong>身分/Status：</strong><input type="text" id="kana" placeholder="Status" required></p>
+      <!-- J：JUSST Program student
+RS：研究生 / Research student
+D：博士後期課程学生 / Ph. D. student
+M：博士前期課程学生 / Master student
+S：配偶者 / Spouse 
+      -->
+      <p><strong>メールアドレス/mail：</strong><input type="email" id="email" placeholder="mail" required></p>
     </div>
 
-    <a href="index.html" class="btn cancel">返回</a>
-    <button id="confirm" class="btn">确认选课</button>
+    <a href="index.html" class="btn cancel">戻る/BACK</a>
+    <button id="confirm" class="btn">確定/OK</button>
 
     <div id="alert-message" class="alert"></div>
   </div>
@@ -157,9 +165,9 @@
       }
 
       if (count >= 2) {
-        document.getElementById("alert-message").textContent = "该时间段已满，请返回选择其他时间。";
+        document.getElementById("alert-message").textContent = "この時間帯は満席です。ほかの時間を選択してください。/Fully booked. Choose another time.";
         setTimeout(() => {
-          window.location.href = "index.html"; // 返回首页
+          window.location.href = "index.html"; // 戻る/BACK
         }, 3000); // 等待3秒后返回
         return false;
       }
@@ -174,7 +182,7 @@
       const email = document.getElementById("email").value;
 
       if (!name || !kana || !email) {
-        alert("请填写所有信息！");
+        alert("すべての項目を入力してください。/Please fill in all fields.！");
         return;
       }
 
@@ -193,9 +201,9 @@
 
       if (error) {
         console.error("插入失败:", error.message);
-        alert("选课失败，请稍后再试！");
+        alert("予約に失敗しました。再度お試しください。/Booking failed. Please try again.");
       } else {
-        alert("选课成功！");
+        alert("予約完了/Reservation successful");
         window.location.href = "index.html"; // 返回到首页
       }
     };
@@ -204,3 +212,4 @@
 </body>
 
 </html>
+

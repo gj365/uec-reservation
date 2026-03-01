@@ -165,7 +165,7 @@
     const date = urlParams.get('date');
 
     document.getElementById("time-slot").textContent = timeSlot;
-    document.getElementById("date").textContent = date;
+    document.getElementById("date").textContent = formatJapaneseDate(date);
 
     document.getElementById("back").onclick = () => {
       window.location.href = "index.html";
@@ -185,7 +185,7 @@
 
       if (count >= 2) {
         document.getElementById("alert-message").textContent =
-          "この時間帯は満席です。ほかの時間を選択してください。 / Fully booked.";
+          "この時間帯は満席です。ほかの時間を選択してください。 /n Fully booked.";
         setTimeout(() => {
           window.location.href = "index.html";
         }, 3000);
@@ -231,8 +231,23 @@
       }
     };
 
+function formatJapaneseDate(dateStr) {
+  // dateStr 例如 "3/30"
+  const [month, day] = dateStr.split("/").map(Number);
+
+  // 2026年（可改成动态）
+  const year = 2026;
+
+  const dateObj = new Date(year, month - 1, day);
+
+  const weekdays = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
+  const weekday = weekdays[dateObj.getDay()];
+
+  return `${month}月${day}日(${weekday})`;
+}
   </script>
 
 </body>
 
 </html>
+

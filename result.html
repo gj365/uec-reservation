@@ -1,138 +1,225 @@
-<!-- result.html -->
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
   <meta charset="UTF-8">
   <title>予約管理</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
 
-<div class="container">
-  <h2>予約一覧</h2>
-
-  <table id="result-table">
-    <thead>
-      <tr>
-        <th>日程</th>
-        <th>時間</th>
-        <th>名前</th>
-        <th>カタカナ</th>
-        <th>国籍・地域</th>
-        <th>身分</th>
-        <th>メールアドレス</th>
-        <th>登録日時</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- 数据动态插入 -->
-    </tbody>
-  </table>
-
-  <div class="actions">
-    <button id="export-btn" class="btn">CSVエクスポート</button>
-    <a href="index.html" class="btn cancel">Topに戻る</a>
-  </div>
-</div>
-<!-- 在 result.html 开头添加 -->
-<script>
-  const password = prompt("パスワードを入力してください：");
-  if (password !== "uec.nihongo2026") {
-    alert("パスワードが正しくありません。");
-    window.location.href = "index.html";  // 未通过则跳转到首页
-  }
-</script>
-
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZGlqbmhieGloYXN0dWtucWt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjgyNTIsImV4cCI6MjA4NTQ0NDI1Mn0.PTG1s0Zv14VX-yfrZNmJqyu-R7wlvJl3_YYcq40g6Y4";
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  async function loadEnrollments() {
-    const { data, error } = await supabaseClient
-      .from("enrollments")
-      .select("*");
-
-    if (error) {
-      alert("エラー！");
-      console.error(error);
-      return;
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
     }
 
-data.sort((a, b) => {
-  const timeA = a.time_slot.split(" - ");
-  const timeB = b.time_slot.split(" - ");
+    .container {
+      width: 95%;
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 25px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-  // 提取开始时间（例如 '9:00' 转为 9，'9:30' 转为 9.5）
-  const startA = convertToDecimalTime(timeA[0]);
-  const startB = convertToDecimalTime(timeB[0]);
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #444;
+    }
 
-  if (startA !== startB) {
-    return startA - startB; // 按开始时间排序
-  }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
 
-  // 如果开始时间相同，按结束时间排序
-  const endA = convertToDecimalTime(timeA[1]);
-  const endB = convertToDecimalTime(timeB[1]);
-  return endA - endB; // 按结束时间排序
-});
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
 
-// 将时间（例如 '9:30'）转换为数字（例如 9.5）
-function convertToDecimalTime(time) {
-  const [hour, minute] = time.split(":").map(Number);
-  return hour + minute / 60; // 返回一个小时的小数表示
-}
+    th {
+      background-color: #f4f4f4;
+      color: #444;
+    }
 
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+    }
 
-    const tbody = document.querySelector("#result-table tbody");
-    tbody.innerHTML = "";
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+    }
 
-    data.forEach(row => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${row.date}</td>
-        <td>${row.time_slot}</td>
-        <td>${row.name}</td>
-        <td>${row.kana}</td>
-        <td>${row.nationality}</td>
-        <td>${row.status}</td>
-        <td>${row.email}</td>
-        <td>${row.created_at}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
+    .btn.primary {
+      background: #4CAF50;
+      color: white;
+    }
 
-  function exportCSV() {
-    const rows = document.querySelectorAll("#result-table tbody tr");
-    const csv = [];
+    .btn.primary:hover {
+      background: #45a049;
+    }
 
-    const bom = "\ufeff";  // BOM 头部
-    const header = ["日程", "時間", "名前", "カタカナ", "国籍・地域", "身分", "メールアドレス", "登録日時"];
-    csv.push(header.join(","));
+    .btn.cancel {
+      background: #f44336;
+      color: white;
+    }
 
-    rows.forEach(row => {
-      const cols = row.querySelectorAll("td");
-      const rowData = Array.from(cols).map(c => `"${c.textContent}"`);
-      csv.push(rowData.join(","));
-    });
+    .btn.cancel:hover {
+      background: #d32f2f;
+    }
 
-    const csvString = bom + csv.join("\n");
-    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "enrollments.csv";
-    link.click();
-  }
+    footer {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #777;
+    }
 
-  document.getElementById("export-btn").onclick = exportCSV;
+    @media (max-width: 768px) {
+      .actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
 
-  loadEnrollments();
-</script>
+<body>
+
+  <script>
+    const password = prompt("パスワードを入力してください：");
+    if (password !== "uec.nihongo2026") {
+      alert("パスワードが正しくありません。");
+      window.location.href = "index.html";
+    }
+  </script>
+
+  <div class="container">
+
+    <h2>予約一覧 / Reservation List</h2>
+
+    <table id="result-table">
+      <thead>
+        <tr>
+          <th>日程</th>
+          <th>時間</th>
+          <th>名前</th>
+          <th>カタカナ</th>
+          <th>国籍・地域</th>
+          <th>身分</th>
+          <th>メールアドレス</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="actions">
+      <button id="export-btn" class="btn primary">CSVエクスポート</button>
+      <a href="index.html" class="btn cancel">Topに戻る</a>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 UEC University | Designed & Developed by HUYIQUN
+  </footer>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZGlqbmhieGloYXN0dWtucWt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjgyNTIsImV4cCI6MjA4NTQ0NDI1Mn0.PTG1s0Zv14VX-yfrZNmJqyu-R7wlvJl3_YYcq40g6Y4";
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadEnrollments() {
+
+      const { data, error } = await supabaseClient
+        .from("enrollments")
+        .select("*");
+
+      if (error) {
+        alert("エラーが発生しました。");
+        console.error(error);
+        return;
+      }
+
+      // 日期 → 时间 排序
+      data.sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return convertToDecimalTime(a.time_slot) - convertToDecimalTime(b.time_slot);
+      });
+
+      const tbody = document.querySelector("#result-table tbody");
+      tbody.innerHTML = "";
+
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${row.date}</td>
+          <td>${row.time_slot}</td>
+          <td>${row.name}</td>
+          <td>${row.kana}</td>
+          <td>${row.nationality}</td>
+          <td>${row.status}</td>
+          <td>${row.email}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function convertToDecimalTime(timeRange) {
+      const start = timeRange.split(" - ")[0];
+      const [hour, minute] = start.split(":").map(Number);
+      return hour + minute / 60;
+    }
+
+    function exportCSV() {
+      const rows = document.querySelectorAll("#result-table tbody tr");
+      const csv = [];
+
+      const bom = "\ufeff";
+      const header = ["日程", "時間", "名前", "カタカナ", "国籍・地域", "身分", "メールアドレス"];
+      csv.push(header.join(","));
+
+      rows.forEach(row => {
+        const cols = row.querySelectorAll("td");
+        const rowData = Array.from(cols).map(c => `"${c.textContent}"`);
+        csv.push(rowData.join(","));
+      });
+
+      const csvString = bom + csv.join("\n");
+      const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "enrollments.csv";
+      link.click();
+    }
+
+    document.getElementById("export-btn").onclick = exportCSV;
+
+    loadEnrollments();
+  </script>
 
 </body>
+
 </html>
-
-
-

@@ -1,56 +1,47 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
   <meta charset="UTF-8">
-  <title>キャンセル/cancel</title>
+  <title>予約キャンセル / Cancel</title>
+
   <style>
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont;
-      background: #f7f7f7;
+      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 30px;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
     }
 
     .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 24px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      width: 95%;
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 25px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      color: #444;
     }
 
     .search-box {
       display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 15px;
+      margin-bottom: 25px;
     }
 
     input[type="email"] {
       flex: 1;
       padding: 10px;
-      font-size: 14px;
-      border-radius: 6px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-    }
-
-    button {
-      padding: 10px 18px;
-      border: none;
-      border-radius: 6px;
-      background: #4CAF50;
-      color: #fff;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    button.cancel {
-      background: #f44336;
+      font-size: 15px;
     }
 
     table {
@@ -59,7 +50,8 @@
       margin-top: 15px;
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid #ddd;
       padding: 10px;
       text-align: center;
@@ -67,154 +59,194 @@
     }
 
     th {
-      background: #f0f0f0;
+      background-color: #f4f4f4;
+      color: #444;
     }
 
     .empty {
       text-align: center;
-      color: #888;
       margin-top: 20px;
+      color: #888;
     }
 
     .actions {
-      margin-top: 20px;
+      margin-top: 30px;
       text-align: center;
     }
 
-    a {
-      color: #4CAF50;
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
       text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn.primary {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .btn.primary:hover {
+      background: #45a049;
+    }
+
+    .btn.cancel {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn.cancel:hover {
+      background: #d32f2f;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      .search-box {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<div class="container">
-  <h2>キャンセル/cancel</h2>
+  <div class="container">
 
-  <!-- 搜索框 -->
-  <div class="search-box">
-    <input type="email" id="email" placeholder="メールアドレス/mail">
-    <button id="search">検索/search</button>
+    <h2>予約キャンセル / Cancel Reservation</h2>
+
+    <div class="search-box">
+      <input type="email" id="email" placeholder="予約時のメールアドレス / Enter your reservation email">
+      <button id="search" class="btn primary">検索 / Search</button>
+    </div>
+
+    <table id="result-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>日程</th>
+          <th>時間</th>
+          <th>名前 (alphabet)</th>
+          <th>名前 (katakana)</th>
+          <th>国籍・地域</th>
+          <th>身分</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div id="empty" class="empty"></div>
+
+    <div class="actions">
+      <a href="index.html" class="btn cancel">← Topに戻る / BACK</a>
+    </div>
+
   </div>
 
-  <!-- 结果表格 -->
-  <table id="result-table" style="display:none;">
-    <thead>
-      <tr>
-        <th>時間</th>
-        <th>日程</th>
-        <th>名前/Name(alphabet)</th>
-        <th>名前/Name(katakana)</th>
-        <th>国籍・地域/Nationality・Region</th>
-        <th>身分/Status</th>
-        <th>操作</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <footer>
+    © 2026 UEC University | Designed & Developed by HUYIQUN
+  </footer>
 
-  <div id="empty" class="empty"></div>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-  <div class="actions">
-    <a href="index.html">← Topに戻る/BACK</a>
-  </div>
-</div>
+  <script>
+    const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZGlqbmhieGloYXN0dWtucWt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjgyNTIsImV4cCI6MjA4NTQ0NDI1Mn0.PTG1s0Zv14VX-yfrZNmJqyu-R7wlvJl3_YYcq40g6Y4";
 
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZGlqbmhieGloYXN0dWtucWt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjgyNTIsImV4cCI6MjA4NTQ0NDI1Mn0.PTG1s0Zv14VX-yfrZNmJqyu-R7wlvJl3_YYcq40g6Y4";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const table = document.getElementById("result-table");
+    const tbody = table.querySelector("tbody");
+    const emptyDiv = document.getElementById("empty");
 
-  const table = document.getElementById("result-table");
-  const tbody = table.querySelector("tbody");
-  const emptyDiv = document.getElementById("empty");
+    document.getElementById("search").onclick = async () => {
 
-  // 检索
-  document.getElementById("search").onclick = async () => {
-    const email = document.getElementById("email").value.trim();
+      const email = document.getElementById("email").value.trim();
 
-    if (!email) {
-      alert("予約時のメールアドレスを入力してください。\nPlease enter the email address used for the reservation.");
-      return;
+      if (!email) {
+        alert("予約時のメールアドレスを入力してください。");
+        return;
+      }
+
+      tbody.innerHTML = "";
+      emptyDiv.textContent = "";
+      table.style.display = "none";
+
+      const { data, error } = await supabaseClient
+        .from("enrollments")
+        .select("*")
+        .eq("email", email);
+
+      if (error) {
+        alert("エラーが発生しました。");
+        console.error(error);
+        return;
+      }
+
+      if (data.length === 0) {
+        emptyDiv.textContent = "予約記録がありません。";
+        return;
+      }
+
+      data.sort((a, b) => {
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return a.time_slot.localeCompare(b.time_slot);
+      });
+
+      table.style.display = "table";
+
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${row.date}</td>
+          <td>${row.time_slot}</td>
+          <td>${row.name}</td>
+          <td>${row.kana}</td>
+          <td>${row.nationality}</td>
+          <td>${row.status}</td>
+          <td><button class="btn cancel">取消</button></td>
+        `;
+
+        tr.querySelector(".btn.cancel").onclick = () => cancelEnrollment(row);
+        tbody.appendChild(tr);
+      });
+    };
+
+    async function cancelEnrollment(row) {
+
+      if (!confirm(`${row.date} ${row.time_slot} の予約をキャンセルしますか？`)) {
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from("enrollments")
+        .delete()
+        .eq("email", row.email)
+        .eq("date", row.date)
+        .eq("time_slot", row.time_slot);
+
+      if (error) {
+        alert("エラーが発生しました。");
+        console.error(error);
+      } else {
+        alert("キャンセルしました。");
+        document.getElementById("search").click();
+      }
     }
 
-    tbody.innerHTML = "";
-    emptyDiv.textContent = "";
-    table.style.display = "none";
-
-    const { data, error } = await supabaseClient
-      .from("enrollments")
-      .select("*")
-      .eq("email", email);
-
-    if (error) {
-      alert("エラー/Error");
-      console.error(error);
-      return;
-    }
-
-    if (data.length === 0) {
-      emptyDiv.textContent = "予約記録がありません。/No reservation found.";
-      return;
-    }
-
-    // 按 日期 + 时间段 排序
-    data.sort((a, b) => {
-      if (a.date !== b.date) return a.date.localeCompare(b.date);
-      return a.time_slot.localeCompare(b.time_slot);
-    });
-
-    table.style.display = "table";
-
-    data.forEach(row => {
-      const tr = document.createElement("tr");
-
-      tr.innerHTML = `
-        <td>${row.date}</td>
-        <td>${row.time_slot}</td>
-        <td>${row.name}</td>
-        <td>${row.kana}</td>
-        <td>${row.email}</td>
-        <td>
-          <button class="cancel">取消</button>
-        </td>
-      `;
-
-      tr.querySelector(".cancel").onclick = () => cancelEnrollment(row);
-
-      tbody.appendChild(tr);
-    });
-  };
-
-  // 取消选课（删除）
-  async function cancelEnrollment(row) {
-    if (!confirm(` ${row.date} ${row.time_slot} の予約をキャンセルしますか。\nCancel the reservation for ${row.date} ${row.time_slot}`)) {
-      return;
-    }
-
-    const { error } = await supabaseClient
-      .from("enrollments")
-      .delete()
-      .eq("email", row.email)
-      .eq("date", row.date)
-      .eq("time_slot", row.time_slot);
-
-    if (error) {
-      alert("エラー/error");
-      console.error(error);
-    } else {
-      alert("キャンセルしました。\nReservation cancelled.");
-      document.getElementById("search").click(); // 重新检索
-    }
-  }
-</script>
+  </script>
 
 </body>
+
 </html>
-
-
-
-

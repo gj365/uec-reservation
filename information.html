@@ -4,12 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Basic Information</title>
+
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background-color: #f7f7f7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .container {
@@ -17,10 +21,12 @@
       padding: 20px;
       border: 1px solid #ddd;
       max-width: 600px;
-      margin: 0 auto;
+      margin-left: auto;
+      margin-right: auto;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex: 1;
     }
 
     h2 {
@@ -30,34 +36,20 @@
       font-size: 24px;
     }
 
-    .details {
-      margin-bottom: 20px;
-      font-size: 16px;
-    }
-
     .details p {
       margin-bottom: 15px;
       font-weight: 500;
     }
 
-    .details p strong {
-      color: #333;
-    }
-
-    input[type="text"],
-    input[type="email"] {
+    input,
+    select {
       width: 100%;
       padding: 12px;
-      margin: 8px 0;
+      margin-top: 8px;
       border: 1px solid #ddd;
       border-radius: 5px;
       font-size: 16px;
       box-sizing: border-box;
-    }
-
-    input[type="text"]:disabled,
-    input[type="email"]:disabled {
-      background-color: #f5f5f5;
     }
 
     .btn {
@@ -65,43 +57,36 @@
       padding: 12px 20px;
       background: #4CAF50;
       color: white;
-      text-decoration: none;
+      border: none;
       border-radius: 5px;
       margin-top: 20px;
-      text-align: center;
       cursor: pointer;
       width: 100%;
       font-size: 16px;
-      box-sizing: border-box;
     }
 
     .btn.cancel {
       background: #f44336;
-      margin-top: 10px;
-    }
-
-    .btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
     }
 
     .alert {
       color: #d9534f;
       text-align: center;
       margin-top: 20px;
-      font-size: 16px;
     }
 
-    /* Small screen styling for mobile responsiveness */
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      background: #f0f0f0;
+      color: #666;
+      margin-top: 20px;
+    }
+
     @media (max-width: 600px) {
       .container {
-        padding: 15px;
         width: 90%;
-      }
-
-      .btn {
-        padding: 12px;
-        font-size: 14px;
       }
     }
   </style>
@@ -110,48 +95,69 @@
 <body>
 
   <div class="container">
-    <h2>基本情報/Basic Information</h2>
+    <h2>基本情報 / Basic Information</h2>
 
     <div class="details">
       <p><strong>時間：</strong><span id="time-slot"></span></p>
       <p><strong>日程：</strong><span id="date"></span></p>
-      <p><strong>名前/Name(alphapet)：</strong><input type="text" id="name" placeholder="Name(alphapet)" required></p>
-      <p><strong>名前/Name(katakana)：</strong><input type="text" id="kana" placeholder="Name(katakana)" required></p>
-      <p><strong>国籍・地域/Nationality・Region：</strong><input type="text" id="kana" placeholder="Nationality・Region" required></p>
-      <p><strong>身分/Status：</strong><input type="text" id="kana" placeholder="Status" required></p>
-      <!-- J：JUSST Program student
-RS：研究生 / Research student
-D：博士後期課程学生 / Ph. D. student
-M：博士前期課程学生 / Master student
-S：配偶者 / Spouse 
-      -->
-      <p><strong>メールアドレス/mail：</strong><input type="email" id="email" placeholder="mail" required></p>
+
+      <p>
+        <strong>名前 / Name (alphabet)：</strong>
+        <input type="text" id="name" required>
+      </p>
+
+      <p>
+        <strong>名前 / Name (katakana)：</strong>
+        <input type="text" id="kana" required>
+      </p>
+
+      <p>
+        <strong>国籍・地域 / Nationality・Region：</strong>
+        <input type="text" id="nationality" required>
+      </p>
+
+      <p>
+        <strong>身分 / Status：</strong>
+        <select id="status" required>
+          <option value="">-- 選択してください / Please select --</option>
+          <option value="J">J：JUSST Program student</option>
+          <option value="RS">RS：研究生 / Research student</option>
+          <option value="D">D：博士後期課程学生 / Ph. D. student</option>
+          <option value="M">M：博士前期課程学生 / Master student</option>
+          <option value="S">S：配偶者 / Spouse</option>
+        </select>
+      </p>
+
+      <p>
+        <strong>メールアドレス / Mail：</strong>
+        <input type="email" id="email" required>
+      </p>
     </div>
 
-    <a href="index.html" class="btn cancel">戻る/BACK</a>
-    <button id="confirm" class="btn">確定/OK</button>
+    <a href="index.html" class="btn cancel">戻る / BACK</a>
+    <button id="confirm" class="btn">確定 / OK</button>
 
     <div id="alert-message" class="alert"></div>
   </div>
 
+  <footer>
+    Version 1.0 | Designed by Your Name | © 2026
+  </footer>
+
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
   <script>
-    // 创建 Supabase 客户端
     const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZGlqbmhieGloYXN0dWtucWt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjgyNTIsImV4cCI6MjA4NTQ0NDI1Mn0.PTG1s0Zv14VX-yfrZNmJqyu-R7wlvJl3_YYcq40g6Y4";
-
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // 从 URL 中获取时间段和日期信息
     const urlParams = new URLSearchParams(window.location.search);
     const timeSlot = urlParams.get('time');
     const date = urlParams.get('date');
 
-    // 获取选课详情
     document.getElementById("time-slot").textContent = timeSlot;
     document.getElementById("date").textContent = date;
 
-    // 插入前检查是否有两条记录
     async function checkEnrollmentExistence() {
       const { count, error } = await supabaseClient
         .from("enrollments")
@@ -160,56 +166,57 @@ S：配偶者 / Spouse
         .eq("date", date);
 
       if (error) {
-        console.error("查询失败:", error.message);
+        console.error(error.message);
         return false;
       }
 
       if (count >= 2) {
-        document.getElementById("alert-message").textContent = "この時間帯は満席です。ほかの時間を選択してください。/Fully booked. Choose another time.";
+        document.getElementById("alert-message").textContent =
+          "この時間帯は満席です。/ Fully booked.";
         setTimeout(() => {
-          window.location.href = "index.html"; // 戻る/BACK
-        }, 3000); // 等待3秒后返回
+          window.location.href = "index.html";
+        }, 3000);
         return false;
       }
 
       return true;
     }
 
-    // 点击确认选课按钮时执行
     document.getElementById("confirm").onclick = async () => {
-      const name = document.getElementById("name").value;
-      const kana = document.getElementById("kana").value;
-      const email = document.getElementById("email").value;
+      const name = document.getElementById("name").value.trim();
+      const kana = document.getElementById("kana").value.trim();
+      const nationality = document.getElementById("nationality").value.trim();
+      const status = document.getElementById("status").value;
+      const email = document.getElementById("email").value.trim();
 
-      if (!name || !kana || !email) {
-        alert("すべての項目を入力してください。/Please fill in all fields.！");
+      if (!name || !kana || !nationality || !status || !email) {
+        alert("すべての項目を入力してください。/ Please fill in all fields.");
         return;
       }
 
       const canInsert = await checkEnrollmentExistence();
-      if (!canInsert) return;  // 如果已有两条记录，直接返回
+      if (!canInsert) return;
 
-      const { data, error } = await supabaseClient
+      const { error } = await supabaseClient
         .from("enrollments")
         .insert([{
           time_slot: timeSlot,
           date: date,
           name: name,
           kana: kana,
+          nationality: nationality,
+          status: status,
           email: email
         }]);
 
       if (error) {
-        console.error("插入失败:", error.message);
-        alert("予約に失敗しました。再度お試しください。/Booking failed. Please try again.");
+        alert("予約に失敗しました。/ Booking failed.");
       } else {
-        alert("予約完了/Reservation successful");
-        window.location.href = "index.html"; // 返回到首页
+        alert("予約完了 / Reservation successful");
+        window.location.href = "index.html";
       }
     };
   </script>
 
 </body>
-
 </html>
-

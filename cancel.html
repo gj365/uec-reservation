@@ -133,7 +133,7 @@
     <table id="result-table" style="display:none;">
       <thead>
         <tr>
-          <th>日程</th>
+          <th>日付</th>
           <th>時間</th>
           <th>名前 (alphabet)</th>
           <th>名前 (katakana)</th>
@@ -209,7 +209,7 @@
         const tr = document.createElement("tr");
 
         tr.innerHTML = `
-          <td>${row.date}</td>
+          <td>${formatJapaneseDate(row.date)}</td>
           <td>${row.time_slot}</td>
           <td>${row.name}</td>
           <td>${row.kana}</td>
@@ -240,16 +240,32 @@
         alert("エラーが発生しました。");
         console.error(error);
       } else {
-        alert("キャンセルしました。");
+        alert("キャンセルしました。\nReservation cancelled.");
         document.getElementById("search").click();
       }
     }
+
+function formatJapaneseDate(dateStr) {
+  // dateStr 例如 "3/30"
+  const [month, day] = dateStr.split("/").map(Number);
+
+  // 2026年（可改成动态）
+  const year = 2026;
+
+  const dateObj = new Date(year, month - 1, day);
+
+  const weekdays = ["Sun.", "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat."];
+  const weekday = weekdays[dateObj.getDay()];
+
+  return `${month}月${day}日(${weekday})`;
+}
 
   </script>
 
 </body>
 
 </html>
+
 
 
 

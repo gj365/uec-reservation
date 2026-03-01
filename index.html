@@ -187,13 +187,13 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let flag = false;
 
-    // 跳转到enroll.html并传递时间段和日期
+    // 跳转到information.html并传递时间段和日期
     function goToEnrollPage(time, date) {
       if (flag) {
         flag = false;
         const remaining = document.querySelector(`td[data-time="${time}"][data-date="${date}"]`).textContent;
         if (remaining !== "×") {
-          window.location.href = `enroll.html?time=${time}&date=${date}`;
+          window.location.href = `information.html?time=${time}&date=${date}`;
         } else {
           alert("この時間帯は満員です。(Fully booked.)！");
         }
@@ -277,6 +277,7 @@
 </body>
 
 </html>
+
 
 
 

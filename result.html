@@ -3,22 +3,24 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>选课结果</title>
+  <title>予約管理</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-  <h2>选课结果</h2>
+  <h2>予約一覧</h2>
 
   <table id="result-table">
     <thead>
       <tr>
-        <th>日期</th>
-        <th>时间段</th>
-        <th>姓名</th>
-        <th>假名</th>
-        <th>邮箱</th>
+        <th>日程</th>
+        <th>時間</th>
+        <th>名前</th>
+        <th>カタカナ</th>
+        <th>国籍・地域</th>
+        <th>身分</th>
+        <th>メールアドレス</th>
       </tr>
     </thead>
     <tbody>
@@ -27,15 +29,15 @@
   </table>
 
   <div class="actions">
-    <button id="export-btn" class="btn">导出 CSV</button>
-    <a href="index.html" class="btn cancel">返回首页</a>
+    <button id="export-btn" class="btn">CSVエクスポート</button>
+    <a href="index.html" class="btn cancel">Topに戻る</a>
   </div>
 </div>
 <!-- 在 result.html 开头添加 -->
 <script>
-  const password = prompt("请输入管理员密码：");
-  if (password !== "gaojian") {
-    alert("无权限访问");
+  const password = prompt("パスワードを入力してください：");
+  if (password !== "uec.nihongo2026") {
+    alert("パスワードが正しくありません。");
     window.location.href = "index.html";  // 未通过则跳转到首页
   }
 </script>
@@ -52,7 +54,7 @@
       .select("*");
 
     if (error) {
-      alert("数据读取失败");
+      alert("エラー！");
       console.error(error);
       return;
     }
@@ -103,7 +105,7 @@ function convertToDecimalTime(time) {
     const csv = [];
 
     const bom = "\ufeff";  // BOM 头部
-    const header = ["日期", "时间段", "姓名", "假名", "邮箱"];
+    const header = ["日程", "時間", "名前", "カタカナ","国籍・地域","身分", "邮箱"];
     csv.push(header.join(","));
 
     rows.forEach(row => {
@@ -127,4 +129,5 @@ function convertToDecimalTime(time) {
 
 </body>
 </html>
+
 

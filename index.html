@@ -101,17 +101,17 @@
 <body>
 
   <div class="container">
-    <h2>UECプレイスメントテスト参加日程</h2>
+    <h2>UECプレイスメントテスト予約システム</h2>
 
     <table id="schedule">
       <thead>
         <tr>
-          <th>时间</th>
-          <th>3/31</th>
-          <th>4/1</th>
-          <th>4/2</th>
-          <th>4/3</th>
-          <th>4/4</th>
+          <th>日程選択</th>
+          <th>3月30日(Mon.)</th>
+          <th>3月31日(Tue.)</th>
+          <th>4月1日(Wed.)</th>
+          <th>4月2日(Thu.)</th>
+          <th>4月3日(Fri.)</th>
         </tr>
       </thead>
       <tbody>
@@ -139,7 +139,7 @@
         </tr>
         <tr>
           <td>12:00 - 13:00</td>
-          <td class="break" colspan="5">午休，不能选课</td>
+          <td class="break" colspan="5">-</td>
         </tr>
         <tr>
           <td>13:00 - 13:30</td>
@@ -172,8 +172,8 @@
 
     <!-- 添加取消选课和查看选课结果按钮 -->
     <div class="buttons">
-      <a href="cancel.html" class="secondary">取消选课</a>
-      <a href="result.html">查看选课结果</a>
+      <a href="cancel.html" class="secondary">予約 キャンセル</a>
+      <a href="result.html">予約管理</a>
     </div>
 
   </div>
@@ -192,10 +192,10 @@
       if (flag) {
         flag = false;
         const remaining = document.querySelector(`td[data-time="${time}"][data-date="${date}"]`).textContent;
-        if (remaining !== "已满员") {
+        if (remaining !== "×") {
           window.location.href = `enroll.html?time=${time}&date=${date}`;
         } else {
-          alert("该时间段已满，请选择其他时间！");
+          alert("この時間帯は満員です。(Fully booked.)！");
         }
       }
     }
@@ -236,10 +236,10 @@
               remaining = 2 - item.count;
             }
 
-            cell.textContent = remaining;
+            cell.textContent = remaining + "名";
 
             if (remaining <= 0) {
-              cell.textContent = "已满员";
+              cell.textContent = "×";
               cell.classList.add("full");
               cell.classList.remove("slot");
             }
@@ -277,5 +277,6 @@
 </body>
 
 </html>
+
 
 

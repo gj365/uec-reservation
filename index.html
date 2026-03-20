@@ -67,14 +67,14 @@
     }
 
     td.full {
-      background-color: #f8d7da;
+      background-color: #fffacd;
       color: #888;
       cursor: not-allowed;
       font-weight: bold;
     }
 
     td.break {
-      background-color: #f0e68c;
+      background-color: #add8e6;
       color: #888;
       pointer-events: none;
       font-weight: bold;
@@ -100,8 +100,8 @@
     }
 
     .btn.primary {
-      background: #4CAF50;
-      color: white;
+      background: #add8e6;
+      color: black;
     }
 
     .btn.primary:hover {
@@ -109,8 +109,8 @@
     }
 
     .btn.cancel {
-      background: #f44336;
-      color: white;
+      background: #ffb6c1;
+      color: black;
     }
 
     .btn.cancel:hover {
@@ -258,7 +258,7 @@
   </div>
 
   <footer>
-    © 2026 UEC Tokyo | Designed by Ichun KO | Developed by GAO & Ichun KO | Version 1.0.7
+    © 2026 UEC Tokyo | Designed by Ichun KO | Developed by GAO & Ichun KO | Version 1.1.7
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -277,10 +277,10 @@
 		});
 
 		// 所有按钮禁用
-		document.querySelectorAll(".btn").forEach(btn => {
-		  btn.style.pointerEvents = "none";
-		  btn.style.opacity = "0.5";
-		});
+		//document.querySelectorAll(".btn").forEach(btn => {
+		//  btn.style.pointerEvents = "none";
+		//  btn.style.opacity = "0.5";
+		//});
 
 		// 顶部显示提示
 		const msg = document.createElement("div");

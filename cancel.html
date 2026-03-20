@@ -225,7 +225,7 @@
 
 async function cancelEnrollment(row) {
 
-  if (!confirm(`${formatJapaneseDate(row.date)} ${row.time_slot} の予約をキャンセルしますか？/nAre you sure you want to cancel your reservation?`)) {
+  if (!confirm(`${formatJapaneseDate(row.date)} ${row.time_slot} の予約をキャンセルしますか？\nAre you sure you want to cancel your reservation?`)) {
     return;
   }
 

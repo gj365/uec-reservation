@@ -257,11 +257,16 @@
 
   </div>
 
-  <footer>
-    © 2026 UEC Tokyo | Designed by Ichun KO | Developed by GAO & Ichun KO | Version 1.1.7
-  </footer>
+  <div id="footer-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script>
+	  fetch("footer.html")
+	    .then(res => res.text())
+	    .then(data => {
+	      document.getElementById("footer-container").innerHTML = data;
+	    });
+	</script>
 	<script>
 	  // 1.设置截止时间（本地时间）
 	  const DEADLINE = new Date("2026-03-25T23:59:59");

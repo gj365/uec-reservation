@@ -216,8 +216,8 @@ document.getElementById("confirm").onclick = async () => {
   // ===== 3. 生成确认信息 =====
   const confirmMessage =
     "以下の内容で予約します。\n\n" +
-    `日程：${formatJapaneseDate(date)}\n` +
-    `時間：${timeSlot}\n` +
+    `日程/Date：${formatJapaneseDate(date)}\n` +
+    `時間/Time：${timeSlot}\n` +
     `名前：${name}\n` +
     `カタカナ：${kana}\n` +
     `国籍・地域：${nationality}\n` +

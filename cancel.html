@@ -194,7 +194,7 @@
       }
 
       if (data.length === 0) {
-        emptyDiv.textContent = "予約記録がありません。";
+        emptyDiv.textContent = "予約記録がありません。<br>No reservation found.";
         return;
       }
 
@@ -225,7 +225,7 @@
 
 async function cancelEnrollment(row) {
 
-  if (!confirm(`${formatJapaneseDate(row.date)} ${row.time_slot} の予約をキャンセルしますか？`)) {
+  if (!confirm(`${formatJapaneseDate(row.date)} ${row.time_slot} の予約をキャンセルしますか？/nAre you sure you want to cancel your reservation?`)) {
     return;
   }
 

@@ -156,9 +156,16 @@
   <footer>
     © 2026 UEC Tokyo | Designed by Ichun KO | Developed by GAO & Ichun KO | Version 1.0.7
   </footer>
+  <div id="footer-container"></div>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
+<script>
+  fetch("foot.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-container").innerHTML = data;
+    });
+</script>
   <script>
     const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZGlqbmhieGloYXN0dWtucWt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjgyNTIsImV4cCI6MjA4NTQ0NDI1Mn0.PTG1s0Zv14VX-yfrZNmJqyu-R7wlvJl3_YYcq40g6Y4";

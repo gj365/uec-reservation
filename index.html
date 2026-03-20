@@ -262,7 +262,36 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+	<script>
+	  // 1.设置截止时间（本地时间）
+	  //const DEADLINE = new Date("2026-03-25T23:59:59");
+	  const DEADLINE = new Date("2026-03-20T15:32:00");
 
+	  // 2.页面加载时检查
+	  if (new Date() > DEADLINE) {
+		// 所有可预约格子禁用
+		document.querySelectorAll(".slot").forEach(cell => {
+		  cell.textContent = "受付終了";   // 显示已结束
+		  cell.style.pointerEvents = "none"; // 禁止点击
+		  cell.classList.add("full");       // 可加样式变灰
+		});
+
+		// 所有按钮禁用
+		document.querySelectorAll(".btn").forEach(btn => {
+		  btn.style.pointerEvents = "none";
+		  btn.style.opacity = "0.5";
+		});
+
+		// 顶部显示提示
+		const msg = document.createElement("div");
+		msg.textContent = "予約受付は終了しました";
+		msg.style.color = "red";
+		msg.style.fontWeight = "bold";
+		msg.style.textAlign = "center";
+		msg.style.marginBottom = "15px";
+		document.querySelector(".container").prepend(msg);
+	  }
+	</script>
   <script>
     const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZGlqbmhieGloYXN0dWtucWt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4NjgyNTIsImV4cCI6MjA4NTQ0NDI1Mn0.PTG1s0Zv14VX-yfrZNmJqyu-R7wlvJl3_YYcq40g6Y4";

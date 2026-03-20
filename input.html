@@ -148,11 +148,16 @@
     <div id="alert-message" class="alert"></div>
   </div>
 
-  <footer>
-    © 2026 UEC Tokyo | Designed by Ichun KO | Developed by GAO & Ichun KO
-  </footer>
+  <div id="footer-container"></div>
 
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+  fetch("footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-container").innerHTML = data;
+    });
+</script>
   <script>
 
     const SUPABASE_URL = "https://iodijnhbxihastuknqky.supabase.co";

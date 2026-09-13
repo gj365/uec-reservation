@@ -126,7 +126,9 @@
     <h2>予約確認 / キャンセル（View / Cancel）</h2>
 
     <div class="search-box">
-      <input type="email" id="email" placeholder="予約時のメールアドレス / Enter your reservation email">
+<!--      <input type="email" id="email" placeholder="予約時のメールアドレス / Enter your reservation email">
+-->
+      <input type="text" id="name" placeholder="予約時の名前 / Enter your reservation name">
       <button id="search" class="btn primary">検索 / Search</button>
     </div>
 
@@ -175,10 +177,14 @@
 
     document.getElementById("search").onclick = async () => {
 
-      const email = document.getElementById("email").value.trim();
-
-      if (!email) {
-        alert("予約時のメールアドレスを入力してください。");
+//      const email = document.getElementById("email").value.trim();
+//      if (!email) {
+//        alert("予約時のメールアドレスを入力してください。");
+//        return;
+//      }
+      const name = document.getElementById("name").value.trim();
+      if (!name) {
+        alert("予約時の名前を入力してください。");
         return;
       }
 
@@ -186,10 +192,14 @@
       emptyDiv.textContent = "";
       table.style.display = "none";
 
+ //     const { data, error } = await supabaseClient
+ //       .from("enrollments")
+ //       .select("*")
+ //       .eq("email", email);
       const { data, error } = await supabaseClient
         .from("enrollments")
         .select("*")
-        .eq("email", email);
+        .eq("name", name);
 
       if (error) {
         alert("エラーが発生しました。");
@@ -233,12 +243,19 @@ async function cancelEnrollment(row) {
     return;
   }
 
+//  const { error } = await supabaseClient
+//    .from("enrollments")
+//    .delete()
+//    .eq("email", row.email)
+//    .eq("date", row.date)
+//    .eq("time_slot", row.time_slot);
   const { error } = await supabaseClient
     .from("enrollments")
     .delete()
-    .eq("email", row.email)
+    .eq("name", row.name)
     .eq("date", row.date)
     .eq("time_slot", row.time_slot);
+
 
   if (error) {
     alert("エラーが発生しました。");

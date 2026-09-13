@@ -137,9 +137,10 @@
         </select>
       </p>
 
-      <p><strong>メールアドレス / Mail：</strong>
+<!--      <p><strong>メールアドレス / Mail：</strong>
         <input type="email" id="email" placeholder="example@email.com" required>
       </p>
+-->
     </div>
 
     <button id="confirm" class="btn primary">確定 / OK</button>
@@ -207,10 +208,11 @@ document.getElementById("confirm").onclick = async () => {
   const kana = document.getElementById("kana").value.trim();
   const nationality = document.getElementById("nationality").value.trim();
   const status = document.getElementById("status").value;
-  const email = document.getElementById("email").value.trim();
+//  const email = document.getElementById("email").value.trim();
 
   // ===== 1. 必填检查 =====
-  if (!name || !kana || !nationality || !status || !email) {
+//  if (!name || !kana || !nationality || !status || !email) {
+  if (!name || !kana || !nationality || !status) {
     alert("すべての項目を入力してください。\nPlease fill in all fields.");
     return;
   }
@@ -228,7 +230,7 @@ document.getElementById("confirm").onclick = async () => {
     `カタカナ：${kana}\n` +
     `国籍・地域：${nationality}\n` +
     `身分：${status}\n` +
-    `メールアドレス：${email}\n\n` +
+//    `メールアドレス：${email}\n\n` +
     "よろしいですか？";
 
   // ===== 4. 弹出确认窗口 =====
@@ -246,8 +248,9 @@ document.getElementById("confirm").onclick = async () => {
       name: name,
       kana: kana,
       nationality: nationality,
-      status: status,
-      email: email
+      status: status
+//      ,
+//      email: email
     }]);
 
   if (error) {

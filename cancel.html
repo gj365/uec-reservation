@@ -184,7 +184,7 @@
 //      }
       const name = document.getElementById("name").value.trim();
       if (!name) {
-        alert("予約時の名前を入力してください。");
+        alert("予約時の名前を入力してください。<br>Enter your reservation name.");
         return;
       }
 
@@ -202,7 +202,7 @@
         .eq("name", name);
 
       if (error) {
-        alert("エラーが発生しました。");
+        alert("エラーが発生しました。<br>System Error.");
         console.error(error);
         return;
       }

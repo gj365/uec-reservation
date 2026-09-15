@@ -11,7 +11,7 @@ window.ReservationApp = (() => {
       scheduleHeaders: ["時間", "9月24日（木）", "9月25日（金）", "9月28日（月）", "9月30日（水）"],
       break: "休憩",
       people: (count) => count + "名",
-      full: "満席",
+      full: "満員",
       closed: "受付終了",
       scheduleButtons: ["予約管理", "予約の確認・キャンセル"],
       basicInfo: "基本情報",

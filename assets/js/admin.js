@@ -38,15 +38,15 @@ function renderEnrollments() {
   const tbody = document.querySelector("#result-table tbody");
   tbody.replaceChildren();
 
-  enrollments.forEach((enrollment) => {
+  enrollments.forEach((enrollment, index) => {
     const row = document.createElement("tr");
+    appendCell(row, index + 1);
     appendCell(row, formatJapaneseDate(enrollment.date));
     appendCell(row, enrollment.time_slot);
     appendCell(row, enrollment.name);
     appendCell(row, enrollment.kana);
     appendCell(row, enrollment.nationality);
     appendCell(row, enrollment.status);
-    appendCell(row, enrollment.email);
     appendCell(row, formatDateTime(enrollment.created_at));
     tbody.appendChild(row);
   });
@@ -75,14 +75,14 @@ function escapeCsv(value) {
 function exportCSV() {
   const headers = Array.from(document.querySelectorAll("#result-table thead th"))
     .map((header) => escapeCsv(header.textContent));
-  const rows = enrollments.map((enrollment) => [
+  const rows = enrollments.map((enrollment, index) => [
+    index + 1,
     formatJapaneseDate(enrollment.date),
     enrollment.time_slot,
     enrollment.name,
     enrollment.kana,
     enrollment.nationality,
     enrollment.status,
-    enrollment.email,
     formatDateTime(enrollment.created_at)
   ].map(escapeCsv));
 
